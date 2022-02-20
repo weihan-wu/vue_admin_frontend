@@ -1,0 +1,24 @@
+import FileSaver from 'file-saver'
+import XLSX from 'xlsx'
+
+const toExcel = {
+  getExcel(dom, title = '默认标题',) {
+    var excelTitle = title;
+    var wb = XLSX.utils.table_to_book(document.querySelector(dom));
+    var wbot = XLSX.write(wb, { bookType: 'xlsx', bookSST: true, type: 'array' });
+    try {
+      FileSaver.saveAs(
+        new Blob([wbot], { type: 'application/octet-stream' }),
+        excelTitle + '.xlsx'
+      )
+    } catch (e) {
+      if (typeof console !== 'undefined') {
+        console.log(e, wbot);
+      }
+
+    }
+    return wbot
+  }
+}
+
+export default toExcel;
